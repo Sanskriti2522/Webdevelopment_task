@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Loading Example</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 10px;
+        }
+
+        #result {
+            margin: 20px;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Data Loading Example</h1>
+    </header>
+        <ul>
+            <li><a href="#" onclick="loadData('posts')">/post</a> 100 posts</li>
+            <li><a href="#" onclick="loadData('comments')">/comments</a> 500 comments</li>
+            <li><a href="#" onclick="loadData('albums')">/albums</a> 100 albums</li>
+            <li><a href="#" onclick="loadData('photos')">/photos</a> 5000 photos</li>
+            <li><a href="#" onclick="loadData('todos')">/todos</a> 200 todos</li>
+            <li><a href="#" onclick="loadData('users')">/users</a> 10 users</li>
+        </ul>
+
+
+    <div id="result"></div>
+
+    <script>
+
+       function loadData(resource) {
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                  var data = JSON.parse(xhr.responseText);
+                 displayData(data);
+              }
+       };
+            xhr.open('GET', 'https://jsonplaceholder.typicode.com/' + resource, true);
+           xhr.send();
+   }
+
+        function displayData(data) {
+            var resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = ''; // Clear previous data
+
+           //  Assuming data is an array of objects
+            for (var i = 0; i < data.length; i++) {
+               var itemDiv = document.createElement('div');
+                itemDiv.textContent = JSON.stringify(data[i]);
+                resultDiv.appendChild(itemDiv);
+           }
+       }
+
+   </script> 
+
+</body>
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript</title>
+</head>
+<body>
+    <form>
+    <table border="1">
+     
+        <tr>
+            <td>Name:</td>
+            <td> <input type="text" name="name" id="name">
+            </td>
+        </tr>
+        <tr>
+            <td>Mob No.</td> 
+            <td><input type="number" id="number"></td>
+        </tr>
+        <tr>
+            <td>Email:</td>
+            <td><input type="email" id="email"></td>
+        </tr>
+        <tr>
+            <td colspan="2"><button type="button" onclick="UserDetails()">Submit</button>
+            </td>
+         </tr>
+         </table>
+       </form>
+
+       <h2>Output</h2>
+       <table border="1">
+     
+        <tr>
+            <td>Name:</td>
+            <td id="nameOutput"> </td>
+        </tr>
+        <tr>
+            <td>Mob No.</td>
+            <td id="numoutput"> </td>
+        </tr>
+        <tr>
+            <td>Email:</td>
+            <td id="mailoutput"></td>
+        </tr>
+        
+         </table>
+     
+      <script type="text/JavaScript">
+    function UserDetails(){
+       
+        var name = document.getElementById('name').value;
+        document.getElementById('nameOutput').innerHTML = name;
+        var number = document.getElementById('number').value;
+        document.getElementById('numoutput').innerHTML = number;
+        var  email = document.getElementById('email').value;
+        document.getElementById('mailoutput').innerHTML = email;
+
+        //alert(name);
+        //var string = " "+Name;
+        //document.getElementsByClassName('UserDetails')[0].innerHTML =string;
+    }
+    </script>
+
+    </table>
+
+</body>
+  
+    
+</html>

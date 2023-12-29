@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Validation Form</title>
+
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        form {
+            margin: 20px auto;
+            width: 80%;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 80%;
+            margin: 20px auto;
+            background-color: #fff;
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0;
+            box-sizing: border-box;
+        }
+
+        button {
+            padding: 10px;
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .buttonClr {
+            background-color: #f44336;
+            color: white;
+        }
+        .error{
+            display: block;
+            margin-top: 5px;
+            color: red;
+        }
+        
+
+       
+    </style>
+</head>
+
+<body>
+    <h2>User Registration Form</h2>
+    <form id="form">
+        <table>
+            <tr>
+                <td>Name:
+                    <input type="text" name="name" id="name" required>
+                    <span id="nameError" class="error"></span>
+                </td>
+            </tr>
+            <tr>
+                <td>Mob no:
+                    <input type="number" id="number" required>
+                    <span id="numberError" class="error"></span>
+                </td>
+            </tr>
+            <tr>
+                <td>Email:
+                    <input type="text" id="email" required>
+                    <span id="emailError" class="error"></span>
+                </td>
+            </tr>
+            <tr>
+                <td>Password:
+                    <input type="password" id="password" required>
+                    <span id="passwordError" class="error"></span>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2"><button type="button" onclick="userDetails();">Submit</button></td>
+            </tr>
+        </table>
+    </form>
+    <h2>Registered Users</h2>
+    <table>
+        <thead>
+            <tr>
+                <td>Name</td>
+                <td>Mob no</td>
+                <td>Email</td>
+                <td>Password</td>
+                <td>Action</td>
+            </tr>
+        </thead>
+        <tbody id="tableBody"></tbody>
+    </table>
+
+   <script>
+        var existingMobileNumbers = []; // Array to store existing mobile numbers
+      var existingEmail = []; // Array to store existing email
+
+    function clearErrors(){
+        errors = document.getElementsByClassName('error');
+        for (let item of errors)
+        {
+            item.innerHTML = "";
+        }
+    }
+    function userDetails(){
+        clearErrors();
+      var count = 0;
+      //  name validation //
+        var name = document.getElementById('name').value;
+        if(name==""){
+        document.getElementById('nameError').innerHTML= "**please enter your name";
+        count++;
+        }else{
+        if(name.length<5){
+        document.getElementById('nameError').innerHTML= "** name is too short";
+        count++;
+    }else{
+            document.getElementById('nameError').innerHTML='';
+           count--;
+        }
+
+    }
+    //  number validation //
+    var number = document.getElementById('number').value;
+        if(number==""){
+            document.getElementById('numberError').innerHTML= "** enter your mobile no."
+            count++;
+        }else{
+            if(number.length!=10){
+            document.getElementById('numberError').innerHTML= "** mobile no should be  of 10 digits"
+             count++;
+          }else{
+            // mobile number already exists
+            if ( existingMobileNumbers.includes(number)){
+                document.getElementById('numberError').innerHTML = "** Mobile number already exists"
+                      count++;
+            }else {
+                     count --;
+                     document.getElementById('numberError').innerHTML= "";
+                     
+                     }
+            }
+        }
+     
+        //alert(count);
+
+        // email validation //
+        var email = document.getElementById('email').value;
+        if(email==""){
+            document.getElementById('emailError').innerHTML= "** enter your email."
+           count++;
+        }else{
+            if(email.length<5){
+            document.getElementById('emailError').innerHTML= "** enter your valid email."
+            count++;
+          }else{
+          // email already exists
+         if ( existingEmail.includes(email)){
+             document.getElementById('numberError').innerHTML = "**Email already exists"
+              count ++;
+         } else {
+            count --;
+            document.getElementById('emailError').innerHTML= "";
+
+}   
+}   
+}
+// password validation //
+         var password= document.getElementById('password').value;
+        if(password==""){
+            document.getElementById('passwordError').innerHTML= "** enter your password."
+         count++;
+        }else{
+            if(password.length<6){
+            document.getElementById('passwordError').innerHTML= "** password should be 6 charcters"
+        count++;
+          }else{
+           count --;
+           document.getElementById('passwordError').innerHTML= "";
+            }
+        }
+        if(count=='-4'){
+                setUserInfo();
+            existingMobileNumbers.push(number);
+          existingEmail.push(email);
+            }
+    }
+
+    // output table //
+
+    var tableBodyInfo = '';
+
+function setUserInfo(){
+    var name = document.getElementById('name').value;
+    var number  = document.getElementById('number').value;
+    var email = document.getElementById('email').value;
+    var password = document.getElementById('password').value;
+
+
+    var tableBody = '<tr><td>' + name + '</td><td>' + number + '</td><td>' + email + '</td><td>'+ password +'</td>' + 
+
+       '<td> <button onclick="deleteUser(this)" class="buttonClr" >Delete</button> </td></tr>';
+    tableBodyInfo +=tableBody;
+
+
+    document.getElementById('tableBody').innerHTML =tableBodyInfo;
+
+document.getElementById('name').value='';
+document.getElementById('number').value='';
+document.getElementById('email').value='';
+document.getElementById('password').value='';
+}
+
+function deleteUser(button){
+var row = button.parentNode.parentNode;
+row.parentNode.removeChild(row);
+}
+</script> 
+</body>
+
+</html>
+
+    

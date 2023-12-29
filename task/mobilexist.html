@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form onsubmit="return checkMobileNumber()">
+        <label for="mobileNumber">Mobile No:</label>
+        <input type="text" id="mobileNumber" name="mobileNumber" required>
+        <button type="submit">Submit</button>
+    </form>
+
+    <script>
+        function checkMobileNumber() {
+            var existingNumbers = ["1234567890", "9876543210","9669422503","6261236143"];
+            var userInput = document.getElementById("mobileNumber").value;
+
+            if (existingNumbers.includes(userInput)) {
+                alert("Mobile number already exists. Please use a different number.");
+                return false;
+            }
+
+            return true;
+        }    
+    </script>
+</body>
+</html> 
+
+
+
+   

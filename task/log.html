@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Form</title>
+    <style>
+        body {
+            font-family: Arial,sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+        .container {
+            background-color:#fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0,0.1);
+            width : 300px;
+            margin : 50px auto;
+        }
+        input {
+            width : 100%;
+            padding: 10px;
+            margin: 8px;
+            box-sizing: border-box; 
+        }
+        button {
+             background-color: blanchedalmond;
+             color: black;
+             padding: 10px;
+             margin: 10px;
+             bottom: none;
+             cursor: pointer;
+             width: 100%;
+        }
+        .forgot-password,.new-user {
+            text-align:center;
+            margin-top: 10px;
+        }
+        a:hover{
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+  <div class="container">
+    <form action="Login Page">
+      <lable for="Username">Username</lable>
+      <input type="text" id="username" placeholder="enter your name" name="username" required>
+      <br>
+      <lable for="Password">Password</lable>
+      <input type="password" id="password" placeholder="password"required>
+
+      <button type="submit">Login</button>
+      <div class="forgot-password">
+      <a href="for-pass.html">Forgot-Password?</a>
+      </div>
+      <div class="new-user">
+        <a href="sign.html">Sign Up</a>
+
+      </div>
+
+    </form>
+</div>  
+</body>
+</html>

@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #f0f0f0;
+        margin: 0;
+        padding: 0;
+    }
+
+    h2 {
+        text-align: center;
+        color: #333;
+    }
+
+    form {
+        margin: 0 auto;
+        width: 90%;
+        text-align: center;
+    }
+
+    table {
+        border-collapse: collapse;
+        width: 50%;
+        margin: 0 auto;
+        background-color: #fff;
+    }
+
+    table, th, td {
+        border: 1px solid #ddd;
+    }
+
+    th, td {
+        padding: 10px;
+        text-align: center;
+    }
+
+    th {
+        background-color: #f2f2f2;
+    }
+
+    input {
+        width: 50%;
+        padding: 8px;
+        margin: 0 auto;
+        box-sizing: border-box;
+    }
+
+    button {
+        padding: 10px;
+        background-color: #4caf50;
+        color: white;
+        border: none;
+        cursor: pointer;
+    }
+    .buttonClr {
+        background-color: #f44336;
+        color: white;
+    }
+    .evenClr{
+       background-color: yellow;
+       color: black;
+    }
+
+    .error {
+        display: block;
+        margin-top: 5px;
+        color: red;
+    }
+    .shorting{
+        background-color: #f44336;
+        color: white;
+    }
+    
+</style>
+<body>
+    <h2>Registered Form</h2>
+    <form id="form">
+        <input type="number" id="number" placeholder="enter your number" required>
+        <button type="button" onclick="userEntry()">Submit</button>
+        <span id="numberError" class="error"></span>
+    </form>
+
+    <h2>Registered Entry</h2>
+    <table>
+        <thead>
+            <tr>
+                <td>Entry</td>
+                <td>Delete</td>
+                <td colspan="2">
+                    <button type="button" onclick="sortArray()" class="shorting"> Short</button>
+                     <button type="button" onclick="evenEntry()" class="shorting"> Even</button>
+                   <button type="button" onclick="oddEntry()" class="shorting"> Odd</button></td> 
+            </tr>
+        </thead>
+        <tbody id="entryBody"></tbody>
+    </table>
+
+    <script>
+        // short array //
+     function sortArray() { 
+     // Sort the array numerically
+     tableBodyInfo.sort(function (a, b) {
+    return a - b;
+     }); 
+     // Update the table
+     updateTable();
+     }
+
+
+    
+        // clear errors //
+        function clearErrors() {
+            errors = document.getElementsByClassName('error');
+            for (let item of errors) {
+                item.innerHTML = "";
+            }
+        }
+
+        // even entry //
+        function  evenEntry(){
+            var evenEntries = [];
+      for (var i = 0; i < tableBodyInfo.length; i++) {
+       if (tableBodyInfo[i] % 2 === 0) {
+        evenEntries.push(tableBodyInfo[i]);
+     }
+      }
+      updateTable(evenEntries); 
+    }
+     
+    // odd entry //
+    function  oddEntry(){
+            var oddEntries = [];
+      for (var i = 0; i < tableBodyInfo.length; i++) {
+       if (tableBodyInfo[i] % 2 !== 0) {
+        oddEntries.push(tableBodyInfo[i]);
+     }
+      }
+
+      updateTable(oddEntries);  
+    }
+
+
+      // main function in user entry //
+        function userEntry() {
+            clearErrors();
+            var count = 0;
+            var number = document.getElementById('number').value;
+            if (number == "") {
+                document.getElementById('numberError').innerHTML = "** please enter your no.";
+                count++;
+            } else {
+                count--;
+                document.getElementById('numberError').innerHTML = '';
+            
+            }
+
+            if (count == '-1') {
+                userInformation();
+            }
+        }
+        
+        var tableBodyInfo = [];
+
+           // user information //
+
+        function userInformation() {
+            var num = document.getElementById('number').value;
+           tableBodyInfo.push(num);
+
+            updateTable();
+            document.getElementById('form').reset();
+        }
+
+       // update table entries even and odd //
+     function updateTable(entries) {
+            var entryBody = '';
+            var displayEntries = entries || tableBodyInfo;
+
+            for (var i = 0; i < displayEntries.length; i++) {
+            
+            entryBody += '<tr><td>' + displayEntries[i] + '</td><td> <button onclick="deleteEntry(this)" class="buttonClr"  > Remove</button></td></tr>';
+        }
+          document.getElementById('entryBody').innerHTML = entryBody;
+          
+        }
+
+   // delete entry in table //
+
+        function deleteEntry(button) {
+            var row = button.parentNode.parentNode;
+            var index = row.rowIndex - 1;  // Adjust for the header row
+            tableBodyInfo.splice(index, 1);
+           
+           updateTable(); // update in array // shorting 
+        }
+    </script>
+</body>
+</html>

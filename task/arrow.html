@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script> // Arrow function 
+   let greet = ()=> {
+    console.log('Good morning');
+   }
+
+    // let Sum = (a, b)=> {
+      //     return a+b;
+    // };
+
+    let sum = (a,b)=> a+b;
+    let half = a => a/2;
+
+greet();
+setTimeout(() => {                  // Asynchronous programing //
+    console.log(" We are inside settimeout");
+}, 2000)     // Asynchronous programing //
+
+let obj1={
+    greeting: "Good Morning",
+    names: ["Sanskriti","Raksha","Sejal"],
+    speak(){
+        this.names.forEach((student)=>{
+        console.log( this.greeting + " Hello " + student)
+        });
+    }
+}
+obj1.speak()
+
+
+
+
+
+
+ //   const sayHello = (name, greeting) => console.log(greeting + " " + name)
+  //  sayHello("Sanskriti", "Good Afternoon")
+</script>
+</html>          
