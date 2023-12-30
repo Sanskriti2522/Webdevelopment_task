@@ -71,6 +71,7 @@
         xhr.onreadystatechange = function () {
             if (xhr.readyState === 4 && xhr.status === 200) {
                 var data = JSON.parse(xhr.responseText);
+                console.log( data[1].img)
                 displayData(data);
             }
         };
@@ -109,15 +110,30 @@
 
                         cell.textContent = `${key}: ${JSON.stringify(data[i][key])}`;
                     }
-                     else {
+                    else{
+                        if (key === 'url' ) {
+                    // Handle 'url' and 'thumbnailUrl' differently
+                    var link = document.createElement('a');
+                    link.href = data[i][key];
+                    link.textContent = key;
+                        cell.appendChild(link);
+                    }else{
+                        if(key === 'thumbnailUrl') {
+                            var img =  document.createElement('img');
+                            img.src = data[i][key];
+                            img.style.width ="50px";
+                            cell.appendChild(img);
+                        }else {
                         cell.textContent = data[i][key];
                     }
                 }
             }
-
+        }
+    } 
             resultDiv.appendChild(table);
         }
     }
+    
 </script>
 </body>
 </html>

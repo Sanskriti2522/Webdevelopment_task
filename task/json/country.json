@@ -1,0 +1,56 @@
+{
+    "countries": [
+      {
+        "name": "India",
+        "states": [
+          {
+            "name": "MadhyPradesh",
+            "districts": ["Indore", "Khargone", "Khandwa"]
+          },
+          {
+            "name": "Gujrat",
+            "districts": ["Ahamdabad", "Vadodra", "Nadiad"]
+          },
+          {
+            "name": "Karnatka",
+            "districts": ["Benglore", "Davanagere", " Mysuru"]
+          }
+        ]
+      },
+      {
+        "name": "USA",
+        "states": [
+          {
+            "name": "Alabama",
+            "districts": ["Birmingham", "Birmingham", "Tuscaloosa"]
+          },
+          {
+            "name": "Kansas",
+            "districts": ["California", "New York", "Tennessee"]
+          },
+          {
+            "name": " Maryland",
+            "districts": ["Hampshire", "New Jersey", "Carolina"]
+          }
+        ]
+      },
+      {
+        "name": "UK",
+        "states": [
+          {
+            "name": "Great Britain",
+            "districts": ["Rhode Island", " Tennessee", " Utah"]
+          },
+          {
+            "name": " Kentucky",
+            "districts": ["Maine", " Colorado", " Mexico"]
+          },
+          {
+            "name": "Vermont",
+            "districts": [" Nevada.", " South Dakota.", "Texas"]
+          }
+        ]
+      }
+    ]
+  }
+  

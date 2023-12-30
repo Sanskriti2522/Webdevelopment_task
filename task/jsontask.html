@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Country-State-District Dropdowns</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+        select:focus {
+            outline: none;
+            border-color: #0066cc;
+        }
+h1 {
+    text-align: center;
+    color: #333;
+}
+</style>
+
+</head>
+<body>
+    <h1>Country-State-District Dropdowns</h1>
+
+<label for="country">Country:</label>
+<select id="country" onchange="updateStates()">
+    <option value="">Select Country</option>
+</select>
+
+<label for="state">State:</label>
+<select id="state" onchange="updateDistricts()">
+    <option value="">Select State</option>
+</select>
+
+<label for="district">District:</label>
+<select id="district" >
+    <option value="">Select District</option>
+</select>
+
+<script>
+    
+    var jsonData = {
+    "countries": [
+      {
+        "name": "India",
+        "states": [
+          {
+            "name": "MadhyPradesh",
+            "districts": ["Indore", "Khargone", "Khandwa"]
+          },
+          {
+            "name": "Gujrat",
+            "districts": ["Ahamdabad", "Vadodra", "Nadiad"]
+          },
+          {
+            "name": "Karnatka",
+            "districts": ["Benglore", "Davanagere", " Mysuru"]
+          }
+        ]
+      },
+      {
+        "name": "USA",
+        "states": [
+          {
+            "name": "Alabama",
+            "districts": ["Birmingham", "Birmingham", "Tuscaloosa"]
+          },
+          {
+            "name": "Kansas",
+            "districts": ["California", "New York", "Tennessee"]
+          },
+          {
+            "name": " Maryland",
+            "districts": ["Hampshire", "New Jersey", "Carolina"]
+          }
+        ]
+      },
+      {
+        "name": "UK",
+        "states": [
+          {
+            "name": "Great Britain",
+            "districts": ["Rhode Island", " Tennessee", " Utah"]
+          },
+          {
+            "name": " Kentucky",
+            "districts": ["Maine", " Colorado", " Mexico"]
+          },
+          {
+            "name": "Vermont",
+            "districts": [" Nevada.", " South Dakota.", "Texas"]
+          }
+        ]
+      }
+    ]
+  }
+  ;
+  var data = jsonData;
+
+    
+    function updateStates() {
+        var countrySelect = document.getElementById("country");
+        var stateSelect = document.getElementById("state");
+        var districtSelect = document.getElementById("district");
+
+        // Clear existing options
+       stateSelect.innerHTML = "<option value=''>Select State</option>";
+        districtSelect.innerHTML = "<option value=''>Select District</option>";
+
+        // Find the selected country
+        var selectedCountry = countrySelect.value;
+        var country = data.countries.find(c => c.name === selectedCountry);
+
+        // Populate states dropdown
+        country.states.forEach(state => {
+            var option = document.createElement("option");
+            option.text = state.name;
+            stateSelect.add(option);
+        });
+    }
+
+    //
+    function updateDistricts() {
+        var countrySelect = document.getElementById("country");
+        var stateSelect = document.getElementById("state");
+        var districtSelect = document.getElementById("district");
+
+        // Clear existing options
+        districtSelect.innerHTML = "<option value=''>Select District</option>";
+
+        // Find the selected country and state
+        var selectedCountry = countrySelect.value;
+        var selectedState = stateSelect.value;
+        var country = data.countries.find(c => c.name === selectedCountry);
+        var state = country.states.find(s => s.name === selectedState);
+
+        // Populate districts dropdown
+        state.districts.forEach(district => {
+            var option = document.createElement("option");
+            option.text = district;
+           districtSelect.add(option);
+        });
+    }
+
+    // Populate country dropdown initially
+    var countrySelect = document.getElementById("country");
+    data.countries.forEach(country => {
+        var option = document.createElement("option");
+        option.text = country.name;
+        countrySelect.add(option);
+    });
+</script>
+
+</body>
+</html>
