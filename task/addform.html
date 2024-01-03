@@ -1,0 +1,87 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+        button {
+            display: block;
+            margin: 0 auto;
+            padding: 10px;
+            color: white;
+            background-color: green;
+            text-align: center;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+</head>
+<body>
+
+    <h2> User Registration Form</h2>
+    <button type="button" onclick="AddDetails()">Add</button>
+    <div id="result"></div> 
+
+    <script>
+        function AddDetails() {
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", "updateform.html");
+
+            xhr.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                 //   console.log(xhr.responseText);
+                    document.getElementById("result").innerHTML = this.responseText;             
+                }
+            };
+            xhr.send();
+        }
+        function submitForm() {
+    var name = document.getElementById("name").value;
+    var email = document.getElementById("email").value;
+    var number = document.getElementById("number").value;
+    var tableBodyInfo = '';
+
+    // Use a data attribute to store user details for later editing
+    var userData = 'data-name="' + name + '" data-email="' + email + '" data-number="' + number + '"';
+
+    var tableBody = '<tr ' + userData + '><td>' + name + '</td><td>' + email + '</td><td>' + number +
+      '</td><td><button onclick="editEntry(this)" class="buttonClr">Edit</button></td></tr>';
+
+    tableBodyInfo += tableBody;
+    document.getElementById('tableBody').innerHTML = tableBodyInfo;
+
+    document.getElementById('name').value = '';
+    document.getElementById('number').value = '';
+    document.getElementById('email').value = '';
+
+     // Hide the form using jQuery
+     $('#userRegistrationForm').hide();
+  }
+
+  function editEntry(button) {
+    var row = button.closest('tr');
+    var name = row.getAttribute('data-name');
+    var email = row.getAttribute('data-email');
+    var number = row.getAttribute('data-number');
+
+    // Set the form values for editing
+    document.getElementById('name').value = name;
+    document.getElementById('email').value = email;
+    document.getElementById('number').value = number;
+
+ // Show the form using jQuery
+    $('#userRegistrationForm').show();
+
+    // Remove the row from the table
+    row.remove();
+  }
+
+ 
+</script>
+</body>
+</html>
