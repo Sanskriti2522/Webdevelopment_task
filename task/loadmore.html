@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Loading Example</title>
+    <style>
+         body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 10px;
+        }
+        #result {
+            margin: 20px;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #333;
+            color: #fff;
+        }
+
+        .list-item {
+            margin-bottom: 10px;
+        }
+        button {
+        background-color: green;
+        color:black;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Data Loading</h1>
+    </header>
+    <div>
+        <ul>
+            <li class="list-item"><a href="#" onclick="loadData('posts')">/posts</a> 100 posts</li>
+            <li class="list-item"><a href="#" onclick="loadData('comments')">/comments</a> 500 comments</li>
+            <li class="list-item"><a href="#" onclick="loadData('albums')">/albums</a> 100 albums</li>
+            <li class="list-item"><a href="#" onclick="loadData('photos')">/photos</a> 5000 photos</li>
+            <li class="list-item"><a href="#" onclick="loadData('todos')">/todos</a> 200 todos</li>
+            <li class="list-item"><a href="#" onclick="loadData('users')">/users</a> 10 users</li>
+        </ul>
+    </div>
+    <div id="result"></div>
+    <button type="button" onclick="loadMore()">Load More</button>
+
+    <script>
+        var currentData = []; // Store all loaded data
+        var currentIndex = 0; // Index to keep track of displayed data
+
+        function loadData(resource) {
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    var data = JSON.parse(xhr.responseText);
+                    currentData = data;
+                    currentIndex = 0;
+                    displayData();
+                }
+            };
+            xhr.open('GET', 'https://jsonplaceholder.typicode.com/' + resource, true);
+            xhr.send();
+        }
+
+        function loadMore() {
+            currentIndex += 10; // Increase the index by 10
+            displayData();
+        }
+
+        function displayData() {
+            var resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = ''; // Clear previous data
+
+            // data is an array of objects
+            if (currentData.length > 0) {
+                var table = document.createElement('table');
+
+                // Create table header
+                var headerRow = table.insertRow();
+                for (var key in currentData[0]) {
+                    var th = document.createElement('th');
+                    th.textContent = key;
+                    headerRow.appendChild(th);
+                }
+
+                // Create table rows
+                for (var i = currentIndex; i < Math.min(currentIndex + 10, currentData.length); i++) {
+                    var row = table.insertRow();
+                    for (var key in currentData[i]) {
+                        var cell = row.insertCell();
+
+                        if (key === 'address' || key === 'company') {
+                            cell.textContent = `${key}: ${JSON.stringify(currentData[i][key])}`;
+                        } else {
+                            if (key === 'url') {
+                                var link = document.createElement('a');
+                                link.href = currentData[i][key];
+                                link.textContent = key;
+                                cell.appendChild(link);
+                            } else {
+                                if (key === 'thumbnailUrl') {
+                                    var img = document.createElement('img');
+                                    img.src = currentData[i][key];
+                                    img.style.width = "50px";
+                                    cell.appendChild(img);
+                                } else {
+                                    cell.textContent = currentData[i][key];
+                                }
+                            }
+                        }
+                    }
+                }
+                resultDiv.appendChild(table);
+            }
+        }
+    </script>
+</body>
+</html>

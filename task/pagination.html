@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Loading Example with Pagination</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: grey;
+            color:black;
+            text-align: center;
+            padding: 10px;
+        }
+
+        #result {
+            margin: 20px;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #333;
+            color: #fff;
+        }
+
+        .list-item {
+            margin-bottom: 10px;
+        }
+
+        #pagination {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .page-link {
+            display: inline-block;
+            padding: 10px 15px;
+            margin: 0 5px;
+            border: 1px solid #4CAF50;
+            text-decoration: none;
+            color: #4CAF50;
+            background-color: #fff;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+
+        .page-link:hover {
+            background-color: #4CAF50;
+            color: #fff;
+        }
+
+        .page-link.active {
+            background-color: #4CAF50;
+            color: #fff;
+            font-weight: bold;
+        }
+       
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Data Loading</h1>
+    </header>
+    <div>
+        <ul>
+            <li class="list-item"><a href="#" onclick="loadData('posts')">/posts</a> 100 posts</li>
+            <li class="list-item"><a href="#" onclick="loadData('comments')">/comments</a>500 comments</li>
+            <li class="list-item"><a href="#" onclick="loadData('albums')">/albums</a>100 albums</li>
+            <li class="list-item"><a href="#" onclick="loadData('photos')">/photos</a>5000 photos</li>
+            <li class="list-item"><a href="#" onclick="loadData('todos')">/todos</a>200 todos</li>
+            <li class="list-item"><a href="#" onclick="loadData('users')">/users</a>10 users</li>
+        </ul>
+    </div>
+    <div id="result"></div>
+    <div id="pagination"></div>
+    <script>
+       var itemsPerPage = 10;
+        var currentPage = 1;
+        var dataToShow = [];
+        var resource = '';
+
+        function loadData(resourceType) {
+            resource = resourceType;
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    dataToShow = JSON.parse(xhr.responseText);
+                    displayData();
+                }
+            };
+            xhr.open('GET', 'https://jsonplaceholder.typicode.com/' + resourceType, true);
+            xhr.send();
+        }
+
+        function displayData() {
+            var resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = ''; // Clear previous data
+
+            var startIndex = (currentPage - 1) * itemsPerPage;
+            var endIndex = startIndex + itemsPerPage;
+            var displayedData = dataToShow.slice(startIndex, endIndex);
+
+            if (displayedData.length > 0) {
+                var table = document.createElement('table');
+
+                // Create table header
+                var headerRow = table.insertRow();
+                for (var key in displayedData[0]) {
+                    var th = document.createElement('th');
+                    th.textContent = key;
+                    headerRow.appendChild(th);
+                }
+
+                // Create table rows
+                for (var i = 0; i < displayedData.length; i++) {
+                    var row = table.insertRow();
+                    for (var key in displayedData[i]) {
+                        var cell = row.insertCell();
+
+                        if (key === 'address' || key === 'company') {
+                            cell.textContent = `${key}: ${JSON.stringify(displayedData[i][key])}`;
+                        } else {
+                            if (key === 'url') {
+                                var link = document.createElement('a');
+                                link.href = displayedData[i][key];
+                                link.textContent = key;
+                                cell.appendChild(link);
+                            } else {
+                                if (key === 'thumbnailUrl') {
+                               var img = document.createElement('img');
+                               img.src = displayedData[i][key];
+                               img.style.width = "50px";
+                               cell.appendChild(img);
+                               } else {
+                              cell.textContent = displayedData[i][key];
+                               }
+                              }
+                            }
+                           }
+                           }
+                         resultDiv.appendChild(table);
+
+                         // Create pagination links
+              createPagination();
+            }
+        }
+
+     function createPagination() {
+            var paginationDiv = document.getElementById('pagination');
+            paginationDiv.innerHTML = '';
+
+            var totalPages = Math.ceil(dataToShow.length / itemsPerPage);
+
+            for (var i = 1; i <= totalPages; i++) {
+                var pageLink = document.createElement('a');
+                pageLink.href = '#';
+                pageLink.textContent = i;
+                pageLink.classList.add('page-link');
+
+                // Highlight the current page
+                if (i === currentPage) {
+                    pageLink.classList.add('active');
+                }
+
+                // Attach event listener to page links
+                pageLink.addEventListener('click', function (event) {
+                    currentPage = parseInt(event.target.textContent);
+                    displayData();
+                });
+
+                paginationDiv.appendChild(pageLink);
+            }
+        }
+    </script>
+</body>
+</html>

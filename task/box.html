@@ -1,9 +1,10 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <title>Document</title>
     <style>
         .box {
@@ -11,54 +12,58 @@
           height: 50px;
           margin: 5px;
           display: block;
-          background-color: #3498db; /* Set background color */
-          border: 1px solid red; /* Add border with a slightly darker color */
-          border-radius: 5px; /* Add rounded corners */
-          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add a subtle box shadow */
+          float: left; 
+          border: 1px solid red; 
+          border-radius: 5px; 
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+          text-align: center; 
+          line-height: 50px;
         }    
         #output {
           margin-top: 10px;
         }
-  </style>
+    </style> 
 </head>
-<body>
 
+<body>
   <form id="boxForm">
     <label for="boxNumber">Enter number boxes</label>
     <input type="number" id="boxNumber" name="boxNumber" min="1" required>
-    <button type="button" id="generateBoxes">GenerateBoxes</button>
+    <button type="button" id="generateBoxes">Generate Boxes</button>
   </form>
 
   <div id="boxContainer"></div>
+  <div id="output"></div>
 
   <script>
     $(document).ready(function() {
       $('#generateBoxes').click(function() {
         var numBoxes = $('#boxNumber').val();
-       console.log('Number of boxes:', numBoxes);
+       // console.log('Number of boxes:', numBoxes);
         var boxesHTML = '';
         for (var i = 0; i < numBoxes; i++) {
-          boxesHTML += '<div class="box" onclick="boxClicked(' + i + ')"></div>';
+          var randomColor = getRandomColor();
+          boxesHTML += '<div class="box" style="background-color: ' + randomColor + ';" onclick="boxClicked(this, ' + (i + 1) + ')"></div>';
         }
         $('#boxContainer').html(boxesHTML);
       });
     });
-       //$('#boxContainer').html('<div class="box"></div>'.repeat(numBoxes));
-      // $ ('#boxContainer').append ('<div class="box"></div>'.repeat(numBoxes))
 
-function boxClicked(index) {
-
-       // console.log('Box clicked:', index + 1);
-      var outputDiv = $('#output');
-      var outputText = 'Box clicked: ' + (index + 1);
-      outputDiv.append('<p>' + outputText + '</p>');
-
+    function getRandomColor() {
+        var letters = '0123456789ABCDEF';
+        var color = '#';
+        for (var i = 0; i < 6; i++) {
+            color += letters[Math.floor(Math.random() * 16)];
+        }
+        return color;
     }
-      
 
+    function boxClicked(box, index) {
+        var clickedValue =  (index * 10);
+        $(box).text(clickedValue);
+    }
   </script>
-
 </body>
-</html> 
+</html>
 
 
